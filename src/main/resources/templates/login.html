@@ -149,8 +149,17 @@
     /**
      * Login
      */
-    function login() {
-        // TODO: complete the login function
+    function login(e) {
+        if (e) {
+            e.preventDefault();
+        }
+        let userName = $('#username').val().trim();
+        if(userName) {
+            window.location.href = `/index?username=${userName}`;
+            return;
+        }
+         $('#username').val('');
+        alert('username is required to join the chat room');
     }
 
     /**
@@ -158,7 +167,7 @@
      */
     document.onkeydown = function (event) {
         var e = event || window.event || arguments.callee.caller.arguments[0];
-        e.keyCode === 13 && login();
+        e.keyCode === 13 && login(e);
     };
 
 
