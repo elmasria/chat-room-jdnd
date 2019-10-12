@@ -61,7 +61,11 @@ public class WebSocketChatServer {
      */
     @OnClose
     public void onClose(Session session) {
-        //TODO: add close connection.
+        onlineSessions.remove(session.getId());
+        Integer numberOfUsers = onlineSessions.size();
+        Message newMessage = new Message(numberOfUsers.toString(), "");
+        String message = JSON.toJSON(newMessage).toString();
+        sendMessageToAll(message);
     }
 
     /**
