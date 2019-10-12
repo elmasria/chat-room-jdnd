@@ -1,9 +1,12 @@
 package edu.udacity.java.nano.chat;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,7 +27,13 @@ public class WebSocketChatServer {
     private static Map<String, Session> onlineSessions = new ConcurrentHashMap<>();
 
     private static void sendMessageToAll(String msg) {
-        //TODO: add send message method.
+        onlineSessions.forEach(((s, session) -> {
+            try {
+                session.getBasicRemote().sendText(msg);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
     }
 
     /**
@@ -32,7 +41,11 @@ public class WebSocketChatServer {
      */
     @OnOpen
     public void onOpen(Session session) {
-        //TODO: add on open connection.
+        onlineSessions.put(session.getId(), session);
+        Integer numberOfUsers = onlineSessions.size();
+        Message newMessage = new Message(numberOfUsers.toString(), "");
+        String message = JSON.toJSON(newMessage).toString();
+        sendMessageToAll(message);
     }
 
     /**
