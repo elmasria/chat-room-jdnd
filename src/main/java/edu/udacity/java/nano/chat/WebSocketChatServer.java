@@ -43,6 +43,7 @@ public class WebSocketChatServer {
         onlineSessions.put(session.getId(), session);
         Integer numberOfUsers = onlineSessions.size();
         Message newMessage = new Message(numberOfUsers.toString(), "");
+        newMessage.setOnlineCount(numberOfUsers.toString());
         String message = JSON.toJSON(newMessage).toString();
         sendMessageToAll(message);
     }
@@ -52,7 +53,6 @@ public class WebSocketChatServer {
      */
     @OnMessage
     public void onMessage(Session session, String jsonStr) {
-        //TODO: add send message.
         Message msgObject = JSON.parseObject(jsonStr, Message.class);
         msgObject.setType(MessageType.SPEAK);
         String message = JSON.toJSON(msgObject).toString();
@@ -67,6 +67,7 @@ public class WebSocketChatServer {
         onlineSessions.remove(session.getId());
         Integer numberOfUsers = onlineSessions.size();
         Message newMessage = new Message(numberOfUsers.toString(), "");
+        newMessage.setOnlineCount(numberOfUsers.toString());
         String message = JSON.toJSON(newMessage).toString();
         sendMessageToAll(message);
     }

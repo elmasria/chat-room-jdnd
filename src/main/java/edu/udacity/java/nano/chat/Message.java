@@ -6,6 +6,7 @@ package edu.udacity.java.nano.chat;
 public class Message {
     private String msg;
     private String username;
+    private String onlineCount;
     private MessageType type;
 
     public Message() {
@@ -40,4 +41,13 @@ public class Message {
     public void setType(MessageType type) {
         this.type = type;
     }
+
+    public String getOnlineCount() {
+        return onlineCount;
+    }
+
+    public void setOnlineCount(String onlineCount) {
+        this.onlineCount = onlineCount;
+    }
+
 }
