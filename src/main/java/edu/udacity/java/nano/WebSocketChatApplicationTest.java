@@ -32,10 +32,19 @@ public class WebSocketChatApplicationTest {
     }
 
     @Test
-    public void userjoin() throws Exception {
+    public void userJoin() throws Exception {
         this.mockMvc.perform(get("/index?username=ahmad")).andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("chat"))
                 .andExpect(request().attribute("username", "ahmad"));
+    }
+
+    @Test
+    public void userLeave() throws Exception {
+        this.mockMvc.perform(get("/index?username=ahmad")).andDo(print()).andExpect(status().isOk())
+                .andExpect(view().name("chat"));
+
+        this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk())
+                .andExpect(view().name("login"));
     }
 }
